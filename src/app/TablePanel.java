@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public final class TablePanel extends javax.swing.JPanel {
     private EntityManagerFactory factory;
     private List<Users> loadedUsers;
+    private Users selectedUser = null;
     
     
     /**
@@ -100,6 +101,11 @@ public final class TablePanel extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        usersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersTableMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(usersTable);
@@ -254,6 +260,10 @@ public final class TablePanel extends javax.swing.JPanel {
         jobsSelector1.reset();
     }//GEN-LAST:event_formComponentShown
 
+    private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
+        selectUser(usersTable.getSelectedRow());
+    }//GEN-LAST:event_usersTableMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -298,6 +308,14 @@ public final class TablePanel extends javax.swing.JPanel {
         }
         usersTable.setModel(m);
         em.close();
+    }
+    
+    private void selectUser(int uid) {
+        selectedUser = loadedUsers.get(uid);
+        jLabel3.setText("Update user: " + selectedUser.getLogin());
+        loginEdit.setText( selectedUser.getLogin());
+        nameEdit.setText( selectedUser.getName());
+        surnameEdit.setText(selectedUser.getSurname());
     }
     
     class UsersTableModel extends DefaultTableModel {
