@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Rooms.findAll", query = "SELECT r FROM Rooms r"),
     @NamedQuery(name = "Rooms.findByRoomId", query = "SELECT r FROM Rooms r WHERE r.roomId = :roomId"),
     @NamedQuery(name = "Rooms.findByCode", query = "SELECT r FROM Rooms r WHERE r.code = :code"),
-    @NamedQuery(name = "Rooms.findByDescription", query = "SELECT r FROM Rooms r WHERE r.description = :description")})
+    @NamedQuery(name = "Rooms.findByDescription", query = "SELECT r FROM Rooms r WHERE r.description = :description"),
+    @NamedQuery(name = "Rooms.deleteAll", query = "DELETE FROM Rooms")})
 public class Rooms implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

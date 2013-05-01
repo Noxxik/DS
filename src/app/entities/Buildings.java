@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Buildings.findByDescription", query = "SELECT b FROM Buildings b WHERE b.description = :description"),
     @NamedQuery(name = "Buildings.findByStreet", query = "SELECT b FROM Buildings b WHERE b.street = :street"),
     @NamedQuery(name = "Buildings.findByCity", query = "SELECT b FROM Buildings b WHERE b.city = :city"),
-    @NamedQuery(name = "Buildings.findByPostalCode", query = "SELECT b FROM Buildings b WHERE b.postalCode = :postalCode")})
+    @NamedQuery(name = "Buildings.findByPostalCode", query = "SELECT b FROM Buildings b WHERE b.postalCode = :postalCode"),
+    @NamedQuery(name = "Buildings.deleteAll", query = "DELETE FROM Buildings")})
 public class Buildings implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

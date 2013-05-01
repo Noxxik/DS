@@ -1,10 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package app;
 
+import app.entities.Buildings;
 import app.entities.Jobs;
+import app.entities.Rooms;
 import app.entities.Users;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,27 +15,30 @@ import javax.persistence.EntityTransaction;
  * @author JB
  */
 public final class SqlPanel extends javax.swing.JPanel {
+
     private EntityManagerFactory factory;
+
     /**
      * Creates new form SqlPanel
      */
     public SqlPanel() {
         initComponents();
     }
-    
+
     /**
      * Need this because constructor can't have any arguments.
-     * @param factory 
+     *
+     * @param factory
      */
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
     }
-    
+
     private List<Jobs> generateJobs() {
         List<Jobs> r = new ArrayList<>();
         String[] names = {"Manager", "Teacher", "Driver", "Cleaner", "Assistant"};
-        String[] desc =  {"Commands people", "Teaches people", "Drives cars", "Cleans up", "Helps others"};
-        for (int i=0; i<names.length; i++) {
+        String[] desc = {"Commands people", "Teaches people", "Drives cars", "Cleans up", "Helps others"};
+        for (int i = 0; i < names.length; i++) {
             Jobs j = new Jobs();
             j.setName(names[i]);
             j.setDescription(desc[i]);
@@ -46,13 +47,13 @@ public final class SqlPanel extends javax.swing.JPanel {
         }
         return r;
     }
-    
+
     private List<Users> generateUsers(List<Jobs> jobs) {
         List<Users> r = new ArrayList<>();
         String[] names = {"Jan", "Josef", "Ondra", "Pavel", "Jan", "Zbynek", "Tomas", "Lukas"};
-        String[] snames =  {"Novak", "Svoboda", "Novak", "Rucinsky", "Jagr", "Straka", "Patera", "Ruzicka"};
+        String[] snames = {"Novak", "Svoboda", "Novak", "Rucinsky", "Jagr", "Straka", "Patera", "Ruzicka"};
         String[] logins = {"JaNo", "Jozka", "OndNo", "Ruca", "JagrGodr", "Str121", "Pat36", "Ruza13"};
-        for (int i=0; i<names.length; i++) {
+        for (int i = 0; i < names.length; i++) {
             Users u = new Users();
             u.setName(names[i]);
             u.setSurname(snames[i]);
@@ -61,16 +62,53 @@ public final class SqlPanel extends javax.swing.JPanel {
             u.setLogin(logins[i]);
             u.setJobsCollection(new ArrayList<Jobs>());
             for (Jobs j : jobs) {
-                if ((int)(Math.random()*(jobs.size())) == 0) {
+                if ((int) (Math.random() * (jobs.size())) == 0) {
                     j.getUsersCollection().add(u);
                     u.getJobsCollection().add(j);
                 }
             }
             r.add(u);
         }
-        return r; 
+        return r;
     }
 
+    private List<Buildings> generateBuildings() {
+        List<Buildings> r = new ArrayList<>();
+        String[] names = {"Dejvice", "Karlovo náměstí"};
+        String[] postalCode = {"160 80", "121 35"};
+        String[] street = {"Technická 2", "Karlovo nám. 13"};
+
+        for (int i = 0; i < names.length; i++) {
+            Buildings b = new Buildings();
+            b.setName(names[i]);
+            b.setCity("Prague");
+            b.setPostalCode(postalCode[i]);
+            b.setStreet(street[i]);
+            r.add(b);
+        }
+        return r;
+    }
+
+    private List<Rooms> generateRooms(List<Buildings> buildings) {
+        List<Rooms> r = new ArrayList<>();
+        String[] codeDejvice = {"D3-256","A3-431b"};
+        String[] codeKarlak = {"E-107","E-220","E-128","E-230"};
+        for (int i = 0; i < codeDejvice.length; i++) {
+            Rooms room = new Rooms();
+            room.setCode(codeDejvice[i]);
+            room.setBuildingId(buildings.get(0));
+            r.add(room);
+        }
+        
+        for (int i = 0; i < codeKarlak.length; i++) {
+            Rooms room = new Rooms();
+            room.setCode(codeKarlak[i]);
+            room.setBuildingId(buildings.get(1)); 
+            r.add(room);
+        }
+        return r;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,18 +153,33 @@ public final class SqlPanel extends javax.swing.JPanel {
             tx.begin();
             em.createNamedQuery("Users.deleteAll").executeUpdate();
             em.createNamedQuery("Jobs.deleteAll").executeUpdate();
+            em.createNamedQuery("Rooms.deleteAll").executeUpdate();
+            em.createNamedQuery("Buildings.deleteAll").executeUpdate();
             List<Jobs> jobs = generateJobs();
             List<Users> users = generateUsers(jobs);
-            for (Users u : users) { em.persist(u);}
-            for (Jobs j : jobs) { em.persist(j);}
+            List<Buildings> buildings = generateBuildings();
+            List<Rooms> rooms = generateRooms(buildings);
+            for (Users u : users) {
+                em.persist(u);
+            }
+            for (Jobs j : jobs) {
+                em.persist(j);
+            }
+            for (Rooms r : rooms) {
+                em.persist(r);
+            }
+            for (Buildings b: buildings) {
+                em.persist(b);
+            }
             tx.commit();
         } catch (Exception e) {
-            if (tx != null && tx.isActive()){ tx.rollback();}
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
         } finally {
             em.close();
         }
     }//GEN-LAST:event_resetButtonMouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
