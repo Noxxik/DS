@@ -32,6 +32,7 @@ public final class SqlPanel extends javax.swing.JPanel {
      */
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
+        this.reservationsPanel1.initialize(factory);
     }
 
     private List<Jobs> generateJobs() {
@@ -119,6 +120,7 @@ public final class SqlPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         resetButton = new javax.swing.JButton();
+        reservationsPanel1 = new app.OverlapingReservationsPanel();
 
         resetButton.setText("Reset Data");
         resetButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -133,15 +135,19 @@ public final class SqlPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(resetButton)
-                .addContainerGap(303, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resetButton)
+                    .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(resetButton)
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -181,6 +187,7 @@ public final class SqlPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_resetButtonMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private app.OverlapingReservationsPanel reservationsPanel1;
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
 }

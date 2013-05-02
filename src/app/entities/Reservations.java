@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Reservations.findByReservationId", query = "SELECT r FROM Reservations r WHERE r.reservationId = :reservationId"),
     @NamedQuery(name = "Reservations.findByStart", query = "SELECT r FROM Reservations r WHERE r.start = :start"),
     @NamedQuery(name = "Reservations.findByFinish", query = "SELECT r FROM Reservations r WHERE r.finish = :finish"),
+    @NamedQuery(name = "Reservations.findByTime", query = "SELECT r FROM Reservations r WHERE (r.start >= :start AND r.start <= :finish) OR (r.finish >= :start AND r.finish <= :finish)"),
     @NamedQuery(name = "Reservations.findByRequested", query = "SELECT r FROM Reservations r WHERE r.requested = :requested")})
 public class Reservations implements Serializable {
     private static final long serialVersionUID = 1L;
