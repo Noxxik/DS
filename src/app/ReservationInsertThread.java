@@ -63,7 +63,7 @@ public class ReservationInsertThread extends Thread {
                 
                 PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM Reservations WHERE (start >= ? AND start <= ?) OR (finish >= ? AND finish <= ?)");
                 PreparedStatement insert = conn.prepareStatement("INSERT INTO RESERVATIONS (room_id,user_id,start,finish,requested) VALUES (?,?,?,?,?)");
-                System.out.println("---begin inserting---");
+                
                 for (int r = 0; r < roomsSize; r++) {
                     user = users.get(randomInteger(0, usersSize - 1));
                     room = rooms.get(r);
@@ -115,8 +115,7 @@ public class ReservationInsertThread extends Thread {
         select.setTimestamp(4, f);
 
         ResultSet res = select.executeQuery();
-        System.out.println(conn.getTransactionIsolation());
-        
+                
         sleep(randomInteger(0,10));
 
         if (res.next() & res.getInt(1)==0) {
