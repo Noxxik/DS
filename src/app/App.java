@@ -20,7 +20,7 @@ public class App extends javax.swing.JFrame {
         initComponents();
         factory = Persistence.createEntityManagerFactory("AppDs");
         tablePanel1.initialize(factory);
-        sqlPanel2.initialize(factory);
+        sqlPanel1.initialize(factory);
     }
 
     /**
@@ -32,12 +32,13 @@ public class App extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        sqlPanel1 = new app.SqlPanel();
         tabs = new javax.swing.JTabbedPane();
         tablePanel1 = new app.TablePanel();
         sqlPanel2 = new app.SqlPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         tabs.setMinimumSize(new java.awt.Dimension(0, 0));
         tabs.setPreferredSize(new java.awt.Dimension(0, 0));
@@ -48,11 +49,15 @@ public class App extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 1008, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         tabs.getAccessibleContext().setAccessibleName("SQL");
@@ -95,6 +100,7 @@ public class App extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private app.SqlPanel sqlPanel1;
     private app.SqlPanel sqlPanel2;
     private app.TablePanel tablePanel1;
     private javax.swing.JTabbedPane tabs;
