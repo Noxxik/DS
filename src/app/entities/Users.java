@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -61,7 +63,10 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 64)
     private String surname;
-    @ManyToMany(mappedBy = "usersCollection")
+    @JoinTable(name = "jobs_has_users", joinColumns = {
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)}, inverseJoinColumns = {
+    @JoinColumn(name = "job_id", referencedColumnName = "job_id", nullable = false)})
+    @ManyToMany
     private Collection<Jobs> jobsCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "authorId")
     private Collection<Notes> notesCollection;

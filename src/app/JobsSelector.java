@@ -34,11 +34,17 @@ public class JobsSelector extends javax.swing.JPanel {
     
     /**
      * Need this because constructor can't have any arguments.
-     * @param factory 
+     * @param factory
+     * @param user null if should be blank, otherwise supply user to fill his data
      */
-    public void initialize(EntityManagerFactory factory) {
+    public void initialize(EntityManagerFactory factory, Users user) {
         this.factory = factory;
         reset();
+        if (user != null) {
+            for (Jobs job : user.getJobsCollection()) {
+                moveToSelected(notSelectedJobs.indexOf(job));
+            }
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,13 +146,7 @@ public class JobsSelector extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        String item = (String) jComboBox1.getSelectedItem();
-        if (item == null) { return;}
-        Jobs j = notSelectedJobs.get(jComboBox1.getSelectedIndex());
-        notSelectedJobs.remove(jComboBox1.getSelectedIndex());
-        selectedJobs.add(j);
-        listModel.addElement("<html><b>" + j.getName() + "</b><br> " + j.getDescription() + "</html>");
-        jComboBox1.removeItem(item);
+        moveToSelected(jComboBox1.getSelectedIndex());
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -243,6 +243,16 @@ public class JobsSelector extends javax.swing.JPanel {
             jComboBox1.addItem(j.getName());
         }
         jList1.setModel(listModel = new DefaultListModel());  
+    }
+    
+    private void moveToSelected(int id) {
+        String item = (String) jComboBox1.getItemAt(id);
+        if (item == null) { return;}
+        Jobs j = notSelectedJobs.get(id);
+        notSelectedJobs.remove(id);
+        selectedJobs.add(j);
+        listModel.addElement("<html><b>" + j.getName() + "</b><br> " + j.getDescription() + "</html>");
+        jComboBox1.removeItem(item);
     }
     
 }

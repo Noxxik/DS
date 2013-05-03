@@ -49,10 +49,7 @@ public class Jobs implements Serializable {
     private String name;
     @Column(length = 256)
     private String description;
-    @JoinTable(name = "jobs_has_users", joinColumns = {
-        @JoinColumn(name = "job_id", referencedColumnName = "job_id", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)})
-    @ManyToMany
+    @ManyToMany(mappedBy = "jobsCollection")
     private Collection<Users> usersCollection;
 
     public Jobs() {

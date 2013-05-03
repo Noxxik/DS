@@ -16,6 +16,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +28,6 @@ import javax.swing.table.DefaultTableModel;
 public final class TablePanel extends javax.swing.JPanel {
     private EntityManagerFactory factory;
     private List<Users> loadedUsers;
-    private Users selectedUser = null;
     
     
     /**
@@ -35,6 +35,7 @@ public final class TablePanel extends javax.swing.JPanel {
      */
     public TablePanel() {
         initComponents();
+        
     }
     
     
@@ -44,7 +45,6 @@ public final class TablePanel extends javax.swing.JPanel {
      */
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
-        jobsSelector1.initialize(factory);
     }
     
 
@@ -59,17 +59,8 @@ public final class TablePanel extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
-        userDetails = new javax.swing.JPanel();
-        nameEdit = new javax.swing.JTextField();
-        surnameEdit = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        loginEdit = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jobsSelector1 = new app.JobsSelector();
-        submitForm = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        addUserButton = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -110,179 +101,70 @@ public final class TablePanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(usersTable);
 
-        userDetails.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jLabel1.setText("Name:");
-
-        jLabel2.setText("Surname:");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel3.setText("Add new User");
-
-        jLabel4.setText("Login:");
-
-        jLabel5.setText("Jobs:");
-
-        submitForm.setText("Add user");
-        submitForm.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                submitFormMouseClicked(evt);
+        addUserButton.setText("Add new user");
+        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout userDetailsLayout = new javax.swing.GroupLayout(userDetails);
-        userDetails.setLayout(userDetailsLayout);
-        userDetailsLayout.setHorizontalGroup(
-            userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userDetailsLayout.createSequentialGroup()
-                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userDetailsLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3))
-                    .addGroup(userDetailsLayout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(userDetailsLayout.createSequentialGroup()
-                                .addComponent(submitForm)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(userDetailsLayout.createSequentialGroup()
-                                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(loginEdit, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(surnameEdit)
-                                    .addComponent(nameEdit)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userDetailsLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jobsSelector1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                .addContainerGap())
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(addUserButton)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        userDetailsLayout.setVerticalGroup(
-            userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userDetailsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(4, 4, 4)
-                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(surnameEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jobsSelector1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(submitForm))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(addUserButton)
+                .addGap(0, 145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(userDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userDetails, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void submitFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitFormMouseClicked
-        if (nameEdit.getText().isEmpty()) {
-            showError("Could not add new user", "Name can not be left empty!");
-            return;
-        }
-        if (surnameEdit.getText().isEmpty()) {
-            showError("Could not add new user", "Surname can not be left empty!");
-            return;
-        }
-        if (loginEdit.getText().isEmpty()) {
-            showError("Could not add new user", "Login can not be left empty!");
-            return;
-        }
-        EntityManager em = factory.createEntityManager();
-        EntityTransaction tx = null;
-        try {
-            tx = em.getTransaction();
-            tx.begin();
-            List<Jobs> jobs = jobsSelector1.getSelectedJobs();
-            Users newUser = new Users();
-            newUser.setPass("fakePass");
-            newUser.setSalt("fakeSalt");
-            newUser.setLogin(loginEdit.getText());
-            newUser.setName(nameEdit.getText());
-            newUser.setSurname(surnameEdit.getText());
-            newUser.setJobsCollection(new ArrayList<Jobs>());
-            em.persist(newUser);
-            for (Jobs j : jobs) {
-                j = em.merge(j);
-                newUser.getJobsCollection().add(j);  //look into CascadeType.PERSIST instead of managing both sides
-                j.getUsersCollection().add(newUser);
-            }
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null && tx.isActive()){ tx.rollback();}
-        } finally {
-            em.close();
-            nameEdit.setText("");
-            surnameEdit.setText("");
-            loginEdit.setText("");
-            jobsSelector1.reset();
-            refreshTable();
-        }
-    }//GEN-LAST:event_submitFormMouseClicked
-
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         refreshTable();
-        jobsSelector1.reset();
     }//GEN-LAST:event_formComponentShown
 
     private void usersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersTableMouseClicked
-        selectUser(usersTable.getSelectedRow());
+        UserDialog dlg = new UserDialog(null, true, factory, loadedUsers.get(usersTable.getSelectedRow()));
+        dlg.setVisible(true);
+        if (dlg.isDbChanged()) {
+            refreshTable();
+        }
     }//GEN-LAST:event_usersTableMouseClicked
 
+    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        UserDialog dlg = new UserDialog(null, true, factory, null);
+        dlg.setVisible(true);
+        if (dlg.isDbChanged()) {
+            refreshTable();
+        }
+    }//GEN-LAST:event_addUserButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton addUserButton;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private app.JobsSelector jobsSelector1;
-    private javax.swing.JTextField loginEdit;
-    private javax.swing.JTextField nameEdit;
-    private javax.swing.JButton submitForm;
-    private javax.swing.JTextField surnameEdit;
-    private javax.swing.JPanel userDetails;
     private javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
-    
-    private void showError(String title, String text) {
-        JOptionPane.showMessageDialog(null, text, title, JOptionPane.ERROR_MESSAGE);
-    }
     
     
     private void refreshTable() {
@@ -309,15 +191,7 @@ public final class TablePanel extends javax.swing.JPanel {
         usersTable.setModel(m);
         em.close();
     }
-    
-    private void selectUser(int uid) {
-        selectedUser = loadedUsers.get(uid);
-        jLabel3.setText("Update user: " + selectedUser.getLogin());
-        loginEdit.setText( selectedUser.getLogin());
-        nameEdit.setText( selectedUser.getName());
-        surnameEdit.setText(selectedUser.getSurname());
-    }
-    
+     
     class UsersTableModel extends DefaultTableModel {
         public UsersTableModel() {
             super();
