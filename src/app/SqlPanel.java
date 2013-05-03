@@ -33,6 +33,7 @@ public final class SqlPanel extends javax.swing.JPanel {
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
         this.reservationsPanel1.initialize(factory);
+        this.aggreatedDataPanel2.initialize(factory);
     }
 
     private List<Jobs> generateJobs() {
@@ -121,6 +122,7 @@ public final class SqlPanel extends javax.swing.JPanel {
 
         resetButton = new javax.swing.JButton();
         reservationsPanel1 = new app.OverlapingReservationsPanel();
+        aggreatedDataPanel2 = new app.AggreatedDataPanel();
 
         resetButton.setText("Reset Data");
         resetButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -137,17 +139,21 @@ public final class SqlPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(resetButton)
-                    .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(aggreatedDataPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(resetButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(aggreatedDataPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -185,8 +191,11 @@ public final class SqlPanel extends javax.swing.JPanel {
         } finally {
             em.close();
         }
+        reservationsPanel1.refreshData();
+        aggreatedDataPanel2.refreshData();
     }//GEN-LAST:event_resetButtonMouseClicked
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private app.AggreatedDataPanel aggreatedDataPanel2;
     private app.OverlapingReservationsPanel reservationsPanel1;
     private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables

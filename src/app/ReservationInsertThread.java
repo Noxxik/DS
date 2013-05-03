@@ -27,6 +27,8 @@ public class ReservationInsertThread extends Thread {
     private final Random random;
     private final boolean isolationSerializable;
     private String name;
+    //TODO solve somewhere localhost/krizik switching
+    private boolean localhost = false;
 
     public ReservationInsertThread(String name, boolean serializable, EntityManagerFactory factory, List<Users> users, List<Rooms> rooms) {
         this.name = name;
@@ -50,8 +52,13 @@ public class ReservationInsertThread extends Thread {
             Calendar finish;
             Date date = new Date();
 
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://krizik.felk.cvut.cz:5434/ds2013_4", "ds2013_4", "modrookakobliha");
-//            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ds_semestralka","noxxik","heslo");
+            Connection conn;
+            localhost=false;
+            if (localhost) {
+                conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ds_semestralka", "noxxik", "heslo");
+            } else {
+                conn = DriverManager.getConnection("jdbc:postgresql://krizik.felk.cvut.cz:5434/ds2013_4", "ds2013_4", "modrookakobliha");
+            }
             try {
 
                 if (isolationSerializable) {
@@ -60,10 +67,10 @@ public class ReservationInsertThread extends Thread {
                     conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
                 }
                 conn.setAutoCommit(false);
-                
+
                 PreparedStatement select = conn.prepareStatement("SELECT count(*) FROM Reservations WHERE (start >= ? AND start <= ?) OR (finish >= ? AND finish <= ?)");
                 PreparedStatement insert = conn.prepareStatement("INSERT INTO RESERVATIONS (room_id,user_id,start,finish,requested) VALUES (?,?,?,?,?)");
-                
+
                 for (int r = 0; r < roomsSize; r++) {
                     user = users.get(randomInteger(0, usersSize - 1));
                     room = rooms.get(r);
@@ -115,10 +122,10 @@ public class ReservationInsertThread extends Thread {
         select.setTimestamp(4, f);
 
         ResultSet res = select.executeQuery();
-                
-        sleep(randomInteger(0,10));
 
-        if (res.next() & res.getInt(1)==0) {
+        sleep(randomInteger(0, 10));
+
+        if (res.next() & res.getInt(1) == 0) {
             insert.setInt(1, room.getRoomId());
             insert.setInt(2, user.getUserId());
             insert.setTimestamp(3, s);
@@ -130,8 +137,8 @@ public class ReservationInsertThread extends Thread {
             conn.rollback();
         }
         res.close();
-        
 
-        
+
+
     }
 }

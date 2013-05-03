@@ -45,7 +45,7 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         return em.createQuery(cq).getResultList();
     }
 
-    public void refreshTable() {
+    private void refreshTable() {
         EntityManager em = factory.createEntityManager();
         CriteriaQuery<Reservations> cq = em.getCriteriaBuilder().createQuery(Reservations.class);
         cq.select(cq.from(Reservations.class));
@@ -60,6 +60,10 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         }
         em.close();
         reservationsTable.setModel(m);    
+    }
+    
+    public void refreshData(){
+        refreshTable();
     }
 
     class ReservationsTableModel extends DefaultTableModel {
@@ -240,12 +244,15 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
             Thread t2 = new ReservationInsertThread("t2", isolationLevel, factory, users, rooms);
             t1.start();
             t2.start();
-
+            while (t1.isAlive()||t2.isAlive()){
+            }
+            refreshData();
         }
+        
     }//GEN-LAST:event_StartTransactionsButtonMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        refreshTable();
+        refreshData();
     }//GEN-LAST:event_jButton1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
