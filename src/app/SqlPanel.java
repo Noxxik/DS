@@ -4,8 +4,15 @@ import app.entities.Buildings;
 import app.entities.Jobs;
 import app.entities.Rooms;
 import app.entities.Users;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -52,24 +59,37 @@ public final class SqlPanel extends javax.swing.JPanel {
 
     private List<Users> generateUsers(List<Jobs> jobs) {
         List<Users> r = new ArrayList<>();
-        String[] names = {"Jan", "Josef", "Ondra", "Pavel", "Jan", "Zbynek", "Tomas", "Lukas"};
-        String[] snames = {"Novak", "Svoboda", "Novak", "Rucinsky", "Jagr", "Straka", "Patera", "Ruzicka"};
-        String[] logins = {"JaNo", "Jozka", "OndNo", "Ruca", "JagrGodr", "Str121", "Pat36", "Ruza13"};
-        for (int i = 0; i < names.length; i++) {
-            Users u = new Users();
-            u.setName(names[i]);
-            u.setSurname(snames[i]);
-            u.setPass("fakepass");
-            u.setSalt("fakesalt");
-            u.setLogin(logins[i]);
-            u.setJobsCollection(new ArrayList<Jobs>());
-            for (Jobs j : jobs) {
-                if ((int) (Math.random() * (jobs.size())) == 0) {
-                    j.getUsersCollection().add(u);
-                    u.getJobsCollection().add(j);
+        int size = 200;
+        int i = 0;
+        try {
+            Scanner namesS = new Scanner(new FileReader("random_names.txt"));
+            Set<String> logins = new HashSet<>();
+            int uId = 1;
+            while (namesS.hasNextLine() && (i++ < size)) {
+                String name = namesS.next();
+                String surname = namesS.next();
+                String login = ((name.length() <= 4) ? name : name.substring(0, 3))
+                        + ((surname.length() <= 4) ? surname : surname.substring(0, 3));
+                if (logins.contains(login)) {
+                    login = login + String.valueOf(++uId);
                 }
+                logins.add(login);
+                Users u = new Users();
+                u.setName(name);
+                u.setSurname(surname);
+                u.setPass("fakepass");
+                u.setSalt("fakesalt");
+                u.setLogin(login);
+                u.setJobsCollection(new ArrayList<Jobs>());
+                for (Jobs j : jobs) {
+                    if ((int) (Math.random() * (jobs.size())) == 0) {
+                         u.getJobsCollection().add(j);
+                    }
+                }
+                r.add(u);
             }
-            r.add(u);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SqlPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         return r;
     }
@@ -93,24 +113,24 @@ public final class SqlPanel extends javax.swing.JPanel {
 
     private List<Rooms> generateRooms(List<Buildings> buildings) {
         List<Rooms> r = new ArrayList<>();
-        String[] codeDejvice = {"D3-256","A3-431b"};
-        String[] codeKarlak = {"E-107","E-220","E-128","E-230"};
+        String[] codeDejvice = {"D3-256", "A3-431b"};
+        String[] codeKarlak = {"E-107", "E-220", "E-128", "E-230"};
         for (int i = 0; i < codeDejvice.length; i++) {
             Rooms room = new Rooms();
             room.setCode(codeDejvice[i]);
             room.setBuildingId(buildings.get(0));
             r.add(room);
         }
-        
+
         for (int i = 0; i < codeKarlak.length; i++) {
             Rooms room = new Rooms();
             room.setCode(codeKarlak[i]);
-            room.setBuildingId(buildings.get(1)); 
+            room.setBuildingId(buildings.get(1));
             r.add(room);
         }
         return r;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -180,7 +200,7 @@ public final class SqlPanel extends javax.swing.JPanel {
             for (Rooms r : rooms) {
                 em.persist(r);
             }
-            for (Buildings b: buildings) {
+            for (Buildings b : buildings) {
                 em.persist(b);
             }
             tx.commit();

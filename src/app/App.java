@@ -19,7 +19,7 @@ public class App extends javax.swing.JFrame {
     public App() {
         initComponents();
         factory = Persistence.createEntityManagerFactory("AppDs");
-        tablePanel1.initialize(factory);
+        tablePanel2.initialize(factory);
         sqlPanel2.initialize(factory);
     }
 
@@ -33,24 +33,22 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         tabs = new javax.swing.JTabbedPane();
-        tablePanel1 = new app.TablePanel();
+        tablePanel2 = new app.TablePanel();
         sqlPanel2 = new app.SqlPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1000, 600));
+        setPreferredSize(new java.awt.Dimension(1020, 600));
 
         tabs.setMinimumSize(new java.awt.Dimension(0, 0));
         tabs.setPreferredSize(new java.awt.Dimension(0, 0));
-        tabs.addTab("tab2", tablePanel1);
+        tabs.addTab("tab2", tablePanel2);
         tabs.addTab("tab2", sqlPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 1008, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 1008, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +98,7 @@ public class App extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private app.SqlPanel sqlPanel2;
-    private app.TablePanel tablePanel1;
+    private app.TablePanel tablePanel2;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }
