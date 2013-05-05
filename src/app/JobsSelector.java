@@ -56,34 +56,34 @@ public class JobsSelector extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        selectedList = new javax.swing.JList();
+        notSelected = new javax.swing.JComboBox();
+        addJob = new javax.swing.JButton();
+        removeJob = new javax.swing.JButton();
+        nameText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        descriptionText = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        createJob = new javax.swing.JButton();
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(258, 98));
 
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jList1.setVisibleRowCount(6);
-        jScrollPane2.setViewportView(jList1);
+        selectedList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        selectedList.setVisibleRowCount(6);
+        jScrollPane2.setViewportView(selectedList);
 
-        jButton1.setText("Add job");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        addJob.setText("Add job");
+        addJob.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                addJobMouseClicked(evt);
             }
         });
 
-        jButton2.setText("Remove highlighted");
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 200));
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        removeJob.setText("Remove highlighted");
+        removeJob.setPreferredSize(new java.awt.Dimension(100, 200));
+        removeJob.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                removeJobMouseClicked(evt);
             }
         });
 
@@ -91,10 +91,10 @@ public class JobsSelector extends javax.swing.JPanel {
 
         jLabel2.setText("Description:");
 
-        jButton3.setText("Create new job");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+        createJob.setText("Create new job");
+        createJob.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
+                createJobMouseClicked(evt);
             }
         });
 
@@ -103,11 +103,11 @@ public class JobsSelector extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(notSelected, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(addJob)
                         .addGap(7, 7, 7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -115,42 +115,42 @@ public class JobsSelector extends javax.swing.JPanel {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, Short.MAX_VALUE)
-                    .addComponent(jTextField2)))
+                    .addComponent(nameText)
+                    .addComponent(removeJob, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                    .addComponent(descriptionText)))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton3))
+                .addComponent(createJob))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notSelected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(removeJob, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addJob, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(descriptionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3))
+                .addComponent(createJob))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        moveToSelected(jComboBox1.getSelectedIndex());
-    }//GEN-LAST:event_jButton1MouseClicked
+    private void addJobMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addJobMouseClicked
+        moveToSelected(notSelected.getSelectedIndex());
+    }//GEN-LAST:event_addJobMouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        int index = jList1.getSelectedIndex();
+    private void removeJobMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeJobMouseClicked
+        int index = selectedList.getSelectedIndex();
         if (index == -1) { return;}
         Jobs j = selectedJobs.get(index);
         selectedJobs.remove(index);
@@ -160,13 +160,13 @@ public class JobsSelector extends javax.swing.JPanel {
             return;
         }
         notSelectedJobs.add(j);
-        jComboBox1.addItem(j.getName());
-    }//GEN-LAST:event_jButton2MouseClicked
+        notSelected.addItem(j.getName());
+    }//GEN-LAST:event_removeJobMouseClicked
 
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        String name = jTextField1.getText();
-        String description = jTextField2.getText();
-        if (jTextField1.getText().isEmpty()) { 
+    private void createJobMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createJobMouseClicked
+        String name = nameText.getText();
+        String description = descriptionText.getText();
+        if (nameText.getText().isEmpty()) { 
             JOptionPane.showMessageDialog(null, 
                     "Job name cannot be empty!",
                     "Job could not be created",
@@ -186,21 +186,21 @@ public class JobsSelector extends javax.swing.JPanel {
         job.setUsersCollection(new ArrayList<Users>());
         selectedJobs.add(job);
         listModel.addElement("<html><b>" + job.getName() + "</b><br> " + job.getDescription() + "</html>");
-        jTextField1.setText("");
-        jTextField2.setText("");
-    }//GEN-LAST:event_jButton3MouseClicked
+        nameText.setText("");
+        descriptionText.setText("");
+    }//GEN-LAST:event_createJobMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton addJob;
+    private javax.swing.JButton createJob;
+    private javax.swing.JTextField descriptionText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField nameText;
+    private javax.swing.JComboBox notSelected;
+    private javax.swing.JButton removeJob;
+    private javax.swing.JList selectedList;
     // End of variables declaration//GEN-END:variables
     
     
@@ -238,21 +238,21 @@ public class JobsSelector extends javax.swing.JPanel {
     public void reset() {
         notSelectedJobs = getJobsList();
         selectedJobs = new ArrayList<>();
-        jComboBox1.removeAllItems();
+        notSelected.removeAllItems();
         for (Jobs j : notSelectedJobs) {
-            jComboBox1.addItem(j.getName());
+            notSelected.addItem(j.getName());
         }
-        jList1.setModel(listModel = new DefaultListModel());  
+        selectedList.setModel(listModel = new DefaultListModel());  
     }
     
     private void moveToSelected(int id) {
-        String item = (String) jComboBox1.getItemAt(id);
+        String item = (String) notSelected.getItemAt(id);
         if (item == null) { return;}
         Jobs j = notSelectedJobs.get(id);
         notSelectedJobs.remove(id);
         selectedJobs.add(j);
         listModel.addElement("<html><b>" + j.getName() + "</b><br> " + j.getDescription() + "</html>");
-        jComboBox1.removeItem(item);
+        notSelected.removeItem(item);
     }
     
 }

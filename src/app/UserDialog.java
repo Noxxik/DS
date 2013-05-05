@@ -46,7 +46,7 @@ public class UserDialog extends javax.swing.JDialog {
         if (user != null) {
             selectUser();
         }else {
-            jButton1.setVisible(false);
+            deleteUser.setVisible(false);
         }
     }
     
@@ -78,7 +78,7 @@ public class UserDialog extends javax.swing.JDialog {
         jobsSelector1 = new app.JobsSelector();
         submitForm = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        deleteUser = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,10 +102,10 @@ public class UserDialog extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("Delete user");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        deleteUser.setText("Delete user");
+        deleteUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteUserActionPerformed(evt);
             }
         });
 
@@ -136,7 +136,7 @@ public class UserDialog extends javax.swing.JDialog {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userDetailsLayout.createSequentialGroup()
                                 .addComponent(submitForm)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))))
+                                .addComponent(deleteUser)))))
                 .addContainerGap())
         );
         userDetailsLayout.setVerticalGroup(
@@ -154,7 +154,6 @@ public class UserDialog extends javax.swing.JDialog {
                     .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(surnameEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
@@ -167,7 +166,7 @@ public class UserDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(userDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitForm)
-                    .addComponent(jButton1))
+                    .addComponent(deleteUser))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -192,7 +191,7 @@ public class UserDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_submitFormMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void deleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteUserActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this user?", 
                 "Delete user",JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION);
         if(dialogResult == JOptionPane.YES_OPTION){
@@ -201,7 +200,7 @@ public class UserDialog extends javax.swing.JDialog {
                 dispose(); 
             }
         }    
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_deleteUserActionPerformed
 
     private void showError(String title, String text) {
         JOptionPane.showMessageDialog(null, text, title, JOptionPane.ERROR_MESSAGE);
@@ -233,7 +232,11 @@ public class UserDialog extends javax.swing.JDialog {
             }
             tx.commit();
         } catch (Exception e) {
-            if (tx != null && tx.isActive()){ tx.rollback(); ret = false;}
+            if (tx != null && tx.isActive()){
+                showError("Error", "Error when accessing database. No data modified. Please try again later");
+                tx.rollback();
+                ret = false;
+            }
         } finally {
             em.close();
             return ret;
@@ -312,7 +315,7 @@ public class UserDialog extends javax.swing.JDialog {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton deleteUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

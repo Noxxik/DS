@@ -41,8 +41,8 @@ public class App extends javax.swing.JFrame {
 
         tabs.setMinimumSize(new java.awt.Dimension(0, 0));
         tabs.setPreferredSize(new java.awt.Dimension(0, 0));
-        tabs.addTab("tab2", tablePanel2);
-        tabs.addTab("tab2", sqlPanel2);
+        tabs.addTab("M:N", tablePanel2);
+        tabs.addTab("SQL", sqlPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

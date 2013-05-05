@@ -69,16 +69,16 @@ public final class TablePanel extends javax.swing.JPanel {
         usersTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         addUserButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        order = new javax.swing.JComboBox();
+        prevPage = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        filter = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton3 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        jobFilter = new javax.swing.JComboBox();
+        nextPage = new javax.swing.JButton();
+        pageText = new javax.swing.JLabel();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -128,44 +128,44 @@ public final class TablePanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Refresh");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                refreshButtonActionPerformed(evt);
             }
         });
 
         jLabel1.setText("Order:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "login", "name", "surname" }));
-        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+        order.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "login", "name", "surname" }));
+        order.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox1ItemStateChanged(evt);
+                orderItemStateChanged(evt);
             }
         });
 
-        jButton2.setText("<<");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        prevPage.setText("<<");
+        prevPage.setEnabled(false);
+        prevPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                prevPageActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Filter:");
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        filter.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+                filterKeyReleased(evt);
             }
         });
 
         jLabel4.setText("Job filter:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+        jobFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jobFilter.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBox2ItemStateChanged(evt);
+                jobFilterItemStateChanged(evt);
             }
         });
 
@@ -176,21 +176,21 @@ public final class TablePanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(addUserButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(refreshButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(order, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jobFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(prevPage)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -198,25 +198,25 @@ public final class TablePanel extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addUserButton)
-                    .addComponent(jButton1)
+                    .addComponent(refreshButton)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(order, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(prevPage)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jobFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 117, Short.MAX_VALUE))
         );
 
-        jButton3.setText(">>");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        nextPage.setText(">>");
+        nextPage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                nextPageActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("? - ? / ?");
+        pageText.setText("? - ? / ?");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -227,9 +227,9 @@ public final class TablePanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(pageText)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3))
+                        .addComponent(nextPage))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -242,8 +242,8 @@ public final class TablePanel extends javax.swing.JPanel {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jLabel2))
+                            .addComponent(nextPage)
+                            .addComponent(pageText))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -268,52 +268,52 @@ public final class TablePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addUserButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         refreshTable();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void nextPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextPageActionPerformed
         offset += resultSize;
         refreshTable();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_nextPageActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void prevPageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevPageActionPerformed
         offset -= resultSize;
         refreshTable();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_prevPageActionPerformed
 
-    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        if (jComboBox1.isValid()) {
+    private void orderItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_orderItemStateChanged
+        if (order.isValid()) {
             offset = 0;
             refreshTable();
         }
-    }//GEN-LAST:event_jComboBox1ItemStateChanged
+    }//GEN-LAST:event_orderItemStateChanged
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    private void filterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filterKeyReleased
         offset = 0;
         refreshTable();
-    }//GEN-LAST:event_jTextField1KeyReleased
+    }//GEN-LAST:event_filterKeyReleased
 
-    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
-        if (jComboBox2.isValid()) {
+    private void jobFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jobFilterItemStateChanged
+        if (jobFilter.isValid()) {
             offset = 0;
             refreshTable();
         }
-    }//GEN-LAST:event_jComboBox2ItemStateChanged
+    }//GEN-LAST:event_jobFilterItemStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JTextField filter;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox jobFilter;
+    private javax.swing.JButton nextPage;
+    private javax.swing.JComboBox order;
+    private javax.swing.JLabel pageText;
+    private javax.swing.JButton prevPage;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
 
@@ -321,28 +321,28 @@ public final class TablePanel extends javax.swing.JPanel {
         long c = getCount();
         long to = (offset + resultSize) > c ? c : (offset + resultSize);
         long maxOffset = c - resultSize;
-        jLabel2.setText((offset + 1) + " - " + to + " / " + c);
+        pageText.setText((offset + 1) + " - " + to + " / " + c);
         if (offset <= 0) {
-            jButton2.setEnabled(false);
+            prevPage.setEnabled(false);
         } else {
-            jButton2.setEnabled(true);
+            prevPage.setEnabled(true);
         }
         if (offset >= maxOffset) {
-            jButton3.setEnabled(false);
+            nextPage.setEnabled(false);
         } else {
-            jButton3.setEnabled(true);
+            nextPage.setEnabled(true);
         }
     }
     
     
     private void makeFilter(Root r, CriteriaQuery cq, CriteriaBuilder cb) {
         List<Predicate> pred = new ArrayList<>();
-        if (!jTextField1.getText().isEmpty()) {
-            pred.add(cb.like(r.get((String) jComboBox1.getSelectedItem()), jTextField1.getText() + "%"));
+        if (!filter.getText().isEmpty()) {
+            pred.add(cb.like(r.get((String) order.getSelectedItem()), filter.getText() + "%"));
         }
-        if (jComboBox2.getSelectedIndex() > 0) {
+        if (jobFilter.getSelectedIndex() > 0) {
             Join jr = r.join(r.getModel().getCollection("jobsCollection"));
-            pred.add(cb.equal(jr.get("name"), (String) jComboBox2.getSelectedItem()));
+            pred.add(cb.equal(jr.get("name"), (String) jobFilter.getSelectedItem()));
         }
         cq.where(cb.and(pred.toArray(new Predicate[0])));
     }
@@ -358,7 +358,7 @@ public final class TablePanel extends javax.swing.JPanel {
         Long res = em.createQuery(cq).getSingleResult();
         em.close();
         if (offset + resultSize > res) {
-            jButton3.setEnabled(false);
+            nextPage.setEnabled(false);
         }
         return res;
     }
@@ -370,7 +370,7 @@ public final class TablePanel extends javax.swing.JPanel {
         Root r = cq.from(Users.class);
         cq.select(r);
         makeFilter(r, cq, cb);
-        cq.orderBy(em.getCriteriaBuilder().asc(r.get((String) jComboBox1.getSelectedItem())));
+        cq.orderBy(em.getCriteriaBuilder().asc(r.get((String) order.getSelectedItem())));
         TypedQuery q = em.createQuery(cq);
         q.setFirstResult((int) offset);
         q.setMaxResults(resultSize);
@@ -402,19 +402,18 @@ public final class TablePanel extends javax.swing.JPanel {
         CriteriaQuery<Jobs> cq = em.getCriteriaBuilder().createQuery(Jobs.class);
         cq.select(cq.from(Jobs.class));
         jobs = em.createQuery(cq).getResultList();
-        int index = jComboBox2.getSelectedIndex();
-        jComboBox2.removeAllItems();
-        jComboBox2.addItem("all");
+        int index = jobFilter.getSelectedIndex();
+        jobFilter.removeAllItems();
+        jobFilter.addItem("all");
         for (Jobs j : jobs) {
-            jComboBox2.addItem(j.getName());
+            jobFilter.addItem(j.getName());
         }
-        if (index < jComboBox2.getItemCount()) {
-            jComboBox2.setSelectedIndex(index);
+        if (index < jobFilter.getItemCount()) {
+            jobFilter.setSelectedIndex(index);
         }
     }
 
     class UsersTableModel extends DefaultTableModel {
-
         public UsersTableModel() {
             super();
             addColumn("Login");
