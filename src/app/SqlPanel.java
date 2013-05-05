@@ -1,18 +1,5 @@
 package app;
 
-import app.entities.Buildings;
-import app.entities.Jobs;
-import app.entities.Rooms;
-import app.entities.Users;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -39,96 +26,13 @@ public final class SqlPanel extends javax.swing.JPanel {
      */
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
-        this.reservationsPanel1.initialize(factory);
+        this.reservationsPanel1.initialize(factory,this);
         this.aggreatedDataPanel2.initialize(factory);
     }
 
-    private List<Jobs> generateJobs() {
-        List<Jobs> r = new ArrayList<>();
-        String[] names = {"Manager", "Teacher", "Driver", "Cleaner", "Assistant"};
-        String[] desc = {"Commands people", "Teaches people", "Drives cars", "Cleans up", "Helps others"};
-        for (int i = 0; i < names.length; i++) {
-            Jobs j = new Jobs();
-            j.setName(names[i]);
-            j.setDescription(desc[i]);
-            j.setUsersCollection(new ArrayList<Users>());
-            r.add(j);
-        }
-        return r;
-    }
-
-    private List<Users> generateUsers(List<Jobs> jobs) {
-        List<Users> r = new ArrayList<>();
-        int size = 950;
-        int i = 0;
-        try {
-            Scanner namesS = new Scanner(new FileReader("random_names.txt"));
-            Set<String> logins = new HashSet<>();
-            int uId = 1;
-            while (namesS.hasNextLine() && (i++ < size)) {
-                String name = namesS.next();
-                String surname = namesS.next();
-                String login = ((name.length() <= 4) ? name : name.substring(0, 3))
-                        + ((surname.length() <= 4) ? surname : surname.substring(0, 3));
-                if (logins.contains(login)) {
-                    login = login + String.valueOf(++uId);
-                }
-                logins.add(login);
-                Users u = new Users();
-                u.setName(name);
-                u.setSurname(surname);
-                u.setPass("fakepass");
-                u.setSalt("fakesalt");
-                u.setLogin(login);
-                u.setJobsCollection(new ArrayList<Jobs>());
-                for (Jobs j : jobs) {
-                    if ((int) (Math.random() * (jobs.size())) == 0) {
-                         u.getJobsCollection().add(j);
-                    }
-                }
-                r.add(u);
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(SqlPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return r;
-    }
-
-    private List<Buildings> generateBuildings() {
-        List<Buildings> r = new ArrayList<>();
-        String[] names = {"Dejvice", "Karlovo náměstí"};
-        String[] postalCode = {"160 80", "121 35"};
-        String[] street = {"Technická 2", "Karlovo nám. 13"};
-
-        for (int i = 0; i < names.length; i++) {
-            Buildings b = new Buildings();
-            b.setName(names[i]);
-            b.setCity("Prague");
-            b.setPostalCode(postalCode[i]);
-            b.setStreet(street[i]);
-            r.add(b);
-        }
-        return r;
-    }
-
-    private List<Rooms> generateRooms(List<Buildings> buildings) {
-        List<Rooms> r = new ArrayList<>();
-        String[] codeDejvice = {"D3-256", "A3-431b"};
-        String[] codeKarlak = {"E-107", "E-220", "E-128", "E-230"};
-        for (int i = 0; i < codeDejvice.length; i++) {
-            Rooms room = new Rooms();
-            room.setCode(codeDejvice[i]);
-            room.setBuildingId(buildings.get(0));
-            r.add(room);
-        }
-
-        for (int i = 0; i < codeKarlak.length; i++) {
-            Rooms room = new Rooms();
-            room.setCode(codeKarlak[i]);
-            room.setBuildingId(buildings.get(1));
-            r.add(room);
-        }
-        return r;
+    public void refreshTables() {
+        reservationsPanel1.refreshData();
+        aggreatedDataPanel2.refreshData();
     }
 
     /**
@@ -140,14 +44,28 @@ public final class SqlPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        resetButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
         reservationsPanel1 = new app.OverlapingReservationsPanel();
         aggreatedDataPanel2 = new app.AggreatedDataPanel();
+        refreshButton = new javax.swing.JButton();
 
-        resetButton.setText("Reset Data");
-        resetButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                resetButtonMouseClicked(evt);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+
+        deleteButton.setText("Delete reservations");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        refreshButton.setText("Refresh tables");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
             }
         });
 
@@ -158,18 +76,23 @@ public final class SqlPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resetButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(deleteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(aggreatedDataPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(resetButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteButton)
+                    .addComponent(refreshButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(reservationsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,32 +101,13 @@ public final class SqlPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void resetButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetButtonMouseClicked
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         EntityManager em = factory.createEntityManager();
         EntityTransaction tx = null;
         try {
             tx = em.getTransaction();
             tx.begin();
-            em.createNamedQuery("Users.deleteAll").executeUpdate();
-            em.createNamedQuery("Jobs.deleteAll").executeUpdate();
-            em.createNamedQuery("Rooms.deleteAll").executeUpdate();
-            em.createNamedQuery("Buildings.deleteAll").executeUpdate();
-            List<Jobs> jobs = generateJobs();
-            List<Users> users = generateUsers(jobs);
-            List<Buildings> buildings = generateBuildings();
-            List<Rooms> rooms = generateRooms(buildings);
-            for (Users u : users) {
-                em.persist(u);
-            }
-            for (Jobs j : jobs) {
-                em.persist(j);
-            }
-            for (Rooms r : rooms) {
-                em.persist(r);
-            }
-            for (Buildings b : buildings) {
-                em.persist(b);
-            }
+            em.createNamedQuery("Reservations.deleteAll").executeUpdate();
             tx.commit();
         } catch (Exception e) {
             if (tx != null && tx.isActive()) {
@@ -212,12 +116,21 @@ public final class SqlPanel extends javax.swing.JPanel {
         } finally {
             em.close();
         }
-        reservationsPanel1.refreshData();
-        aggreatedDataPanel2.refreshData();
-    }//GEN-LAST:event_resetButtonMouseClicked
+
+        refreshTables();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        refreshTables();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        refreshTables();
+    }//GEN-LAST:event_formComponentShown
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private app.AggreatedDataPanel aggreatedDataPanel2;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton refreshButton;
     private app.OverlapingReservationsPanel reservationsPanel1;
-    private javax.swing.JButton resetButton;
     // End of variables declaration//GEN-END:variables
 }

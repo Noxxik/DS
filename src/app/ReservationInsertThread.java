@@ -1,5 +1,6 @@
 package app;
 
+import ConnectionInfo.ConnectionForTransactionLevels;
 import app.entities.Rooms;
 import app.entities.Users;
 import static java.lang.Thread.sleep;
@@ -51,14 +52,9 @@ public class ReservationInsertThread extends Thread {
             Calendar start;
             Calendar finish;
             Date date = new Date();
-
-            Connection conn;
-            localhost=false;
-            if (localhost) {
-                conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ds_semestralka", "noxxik", "heslo");
-            } else {
-                conn = DriverManager.getConnection("jdbc:postgresql://krizik.felk.cvut.cz:5434/ds2013_4", "ds2013_4", "modrookakobliha");
-            }
+            ConnectionForTransactionLevels c= new ConnectionForTransactionLevels();
+            Connection conn = DriverManager.getConnection(c.getUrl(), c.getUser(), c.getPassword());
+            
             try {
 
                 if (isolationSerializable) {

@@ -19,7 +19,7 @@ public class App extends javax.swing.JFrame {
     public App() {
         initComponents();
         factory = Persistence.createEntityManagerFactory("AppDs");
-        tablePanel2.initialize(factory);
+        resetDbButton.initialize(factory);
         sqlPanel2.initialize(factory);
     }
 
@@ -33,7 +33,7 @@ public class App extends javax.swing.JFrame {
     private void initComponents() {
 
         tabs = new javax.swing.JTabbedPane();
-        tablePanel2 = new app.TablePanel();
+        resetDbButton = new app.TablePanel();
         sqlPanel2 = new app.SqlPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,7 +41,7 @@ public class App extends javax.swing.JFrame {
 
         tabs.setMinimumSize(new java.awt.Dimension(0, 0));
         tabs.setPreferredSize(new java.awt.Dimension(0, 0));
-        tabs.addTab("M:N", tablePanel2);
+        tabs.addTab("M:N", resetDbButton);
         tabs.addTab("SQL", sqlPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -97,8 +97,8 @@ public class App extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private app.TablePanel resetDbButton;
     private app.SqlPanel sqlPanel2;
-    private app.TablePanel tablePanel2;
     private javax.swing.JTabbedPane tabs;
     // End of variables declaration//GEN-END:variables
 }

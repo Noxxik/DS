@@ -19,6 +19,7 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
 
     private EntityManagerFactory factory;
     private List<Reservations> loadedReservations;
+    private SqlPanel enclosedInPanel;
 
     /**
      * Creates new form ReservationsPanel
@@ -27,7 +28,13 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    public void initialize(EntityManagerFactory factory, SqlPanel enclosedInPanel) {
+        this.enclosedInPanel = enclosedInPanel;
+        this.factory = factory;
+    }
+    
     public void initialize(EntityManagerFactory factory) {
+        this.enclosedInPanel = null;
         this.factory = factory;
     }
 
@@ -97,7 +104,6 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         readCommitedRadioB = new javax.swing.JRadioButton();
         serializableRadioB = new javax.swing.JRadioButton();
         StartTransactionsButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         reservationsLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -113,16 +119,9 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         serializableRadioB.setText("SERIALIZABLE");
 
         StartTransactionsButton.setText("Start 2 inserting threads");
-        StartTransactionsButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                StartTransactionsButtonMouseClicked(evt);
-            }
-        });
-
-        jButton1.setText("Refresh table");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+        StartTransactionsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartTransactionsButtonActionPerformed(evt);
             }
         });
 
@@ -132,12 +131,11 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(readCommitedRadioB)
                     .addComponent(serializableRadioB)
                     .addComponent(isolationLevelLabel)
-                    .addComponent(StartTransactionsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(StartTransactionsButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,9 +149,7 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
                 .addComponent(serializableRadioB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StartTransactionsButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         reservationsLabel.setText("All reservations:");
@@ -220,7 +216,7 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void StartTransactionsButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StartTransactionsButtonMouseClicked
+    private void StartTransactionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartTransactionsButtonActionPerformed
         List<Users> users = null;
         List<Rooms> rooms = null;
         EntityManager em = factory.createEntityManager();
@@ -246,20 +242,20 @@ public class OverlapingReservationsPanel extends javax.swing.JPanel {
             t2.start();
             while (t1.isAlive()||t2.isAlive()){
             }
-            refreshData();
+            
+            if (enclosedInPanel==null){
+                refreshData();
+            } else {
+                enclosedInPanel.refreshTables();
+            }
+            
         }
-        
-    }//GEN-LAST:event_StartTransactionsButtonMouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        refreshData();
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_StartTransactionsButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton StartTransactionsButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel isolationLevelLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

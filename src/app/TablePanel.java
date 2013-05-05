@@ -4,12 +4,21 @@
  */
 package app;
 
+import app.entities.Buildings;
 import app.entities.Jobs;
+import app.entities.Rooms;
 import app.entities.Users;
 import java.awt.event.ItemEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -55,6 +64,94 @@ public final class TablePanel extends javax.swing.JPanel {
     public void initialize(EntityManagerFactory factory) {
         this.factory = factory;
     }
+    
+    private List<Jobs> generateJobs() {
+        List<Jobs> r = new ArrayList<>();
+        String[] names = {"Manager", "Teacher", "Driver", "Cleaner", "Assistant"};
+        String[] desc = {"Commands people", "Teaches people", "Drives cars", "Cleans up", "Helps others"};
+        for (int i = 0; i < names.length; i++) {
+            Jobs j = new Jobs();
+            j.setName(names[i]);
+            j.setDescription(desc[i]);
+            j.setUsersCollection(new ArrayList<Users>());
+            r.add(j);
+        }
+        return r;
+    }
+
+    private List<Users> generateUsers(List<Jobs> jobs) {
+        List<Users> r = new ArrayList<>();
+        int size = 950;
+        int i = 0;
+        try {
+            Scanner namesS = new Scanner(new FileReader("random_names.txt"));
+            Set<String> logins = new HashSet<>();
+            int uId = 1;
+            while (namesS.hasNextLine() && (i++ < size)) {
+                String name = namesS.next();
+                String surname = namesS.next();
+                String login = ((name.length() <= 4) ? name : name.substring(0, 3))
+                        + ((surname.length() <= 4) ? surname : surname.substring(0, 3));
+                if (logins.contains(login)) {
+                    login = login + String.valueOf(++uId);
+                }
+                logins.add(login);
+                Users u = new Users();
+                u.setName(name);
+                u.setSurname(surname);
+                u.setPass("fakepass");
+                u.setSalt("fakesalt");
+                u.setLogin(login);
+                u.setJobsCollection(new ArrayList<Jobs>());
+                for (Jobs j : jobs) {
+                    if ((int) (Math.random() * (jobs.size())) == 0) {
+                         u.getJobsCollection().add(j);
+                    }
+                }
+                r.add(u);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SqlPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return r;
+    }
+
+    private List<Buildings> generateBuildings() {
+        List<Buildings> r = new ArrayList<>();
+        String[] names = {"Dejvice", "Karlovo náměstí"};
+        String[] postalCode = {"160 80", "121 35"};
+        String[] street = {"Technická 2", "Karlovo nám. 13"};
+
+        for (int i = 0; i < names.length; i++) {
+            Buildings b = new Buildings();
+            b.setName(names[i]);
+            b.setCity("Prague");
+            b.setPostalCode(postalCode[i]);
+            b.setStreet(street[i]);
+            r.add(b);
+        }
+        return r;
+    }
+
+    private List<Rooms> generateRooms(List<Buildings> buildings) {
+        List<Rooms> r = new ArrayList<>();
+        String[] codeDejvice = {"D3-256", "A3-431b"};
+        String[] codeKarlak = {"E-107", "E-220", "E-128", "E-230"};
+        for (int i = 0; i < codeDejvice.length; i++) {
+            Rooms room = new Rooms();
+            room.setCode(codeDejvice[i]);
+            room.setBuildingId(buildings.get(0));
+            r.add(room);
+        }
+
+        for (int i = 0; i < codeKarlak.length; i++) {
+            Rooms room = new Rooms();
+            room.setCode(codeKarlak[i]);
+            room.setBuildingId(buildings.get(1));
+            r.add(room);
+        }
+        return r;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,6 +174,7 @@ public final class TablePanel extends javax.swing.JPanel {
         filter = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jobFilter = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
         nextPage = new javax.swing.JButton();
         pageText = new javax.swing.JLabel();
 
@@ -169,28 +267,40 @@ public final class TablePanel extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("Reset & Randomly Fill In");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(addUserButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(refreshButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(order, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jobFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
-                .addComponent(prevPage)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(addUserButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(order, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jobFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 153, Short.MAX_VALUE)
+                        .addComponent(prevPage))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -206,7 +316,9 @@ public final class TablePanel extends javax.swing.JPanel {
                     .addComponent(filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jobFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 117, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(jButton1)
+                .addGap(0, 60, Short.MAX_VALUE))
         );
 
         nextPage.setText(">>");
@@ -300,9 +412,47 @@ public final class TablePanel extends javax.swing.JPanel {
             refreshTable();
         }
     }//GEN-LAST:event_jobFilterItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        EntityManager em = factory.createEntityManager();
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+            em.createNamedQuery("Users.deleteAll").executeUpdate();
+            em.createNamedQuery("Jobs.deleteAll").executeUpdate();
+            em.createNamedQuery("Rooms.deleteAll").executeUpdate();
+            em.createNamedQuery("Buildings.deleteAll").executeUpdate();
+            List<Jobs> jobs = generateJobs();
+            List<Users> users = generateUsers(jobs);
+            List<Buildings> buildings = generateBuildings();
+            List<Rooms> rooms = generateRooms(buildings);
+            for (Users u : users) {
+                em.persist(u);
+            }
+            for (Jobs j : jobs) {
+                em.persist(j);
+            }
+            for (Rooms r : rooms) {
+                em.persist(r);
+            }
+            for (Buildings b : buildings) {
+                em.persist(b);
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+        } finally {
+            em.close();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserButton;
     private javax.swing.JTextField filter;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
